@@ -1,0 +1,62 @@
+@import "global";
+
+body {
+    @extend .dark-default;
+
+    .app-header, .card-header, .card-footer {
+        background-color: $dark-form-header !important;
+        border-color: $dark-default-border !important;
+    }
+
+    .app-footer, .card, .breadcrumb {
+        background-color: $dark-default-background !important;
+        border-color: $dark-default-border !important;
+    }
+
+    .main {
+        background-color: black !important;
+    }
+
+    .sidebar {
+        @extend .dark-default;   
+    }
+
+    .form-control, .form-control:disabled, .form-control:focus {
+        @extend .dark-default-form;
+    }
+
+    .form-group {
+        margin-bottom: 0.5rem;
+    }
+
+    .input-group-text {
+        @extend .dark-default-form-group;
+    }
+
+    .dropdown-menu {
+        @extend .dark-default;
+
+        .dropdown-header {
+            background-color: $dark-form-header !important;
+        }
+
+        .dropdown-item {
+                color: $dark-default-color !important;
+        }
+
+        .dropdown-item:hover {
+            background-color: $primary !important;
+        }
+    
+    }
+    
+    .modal-content {
+        @extend .dark-default; 
+    }
+
+    .login-card {
+        color: #ffffff;
+        border-color: 'transparent';
+        background-color: #23242d !important;
+    }
+}
