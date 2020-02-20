@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Col, FormGroup, Label } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Col, FormGroup, Label } from 'reactstrap';
 import { AvForm } from 'availity-reactstrap-validation';
 import { connect } from 'react-redux';
 import { modalActions, submitFormActions, loadTableActions } from 'stores';
-import { DefaultInput } from 'components';
+import { DefaultInput, DefaultSubmit } from 'components';
 
 const Add = (props) => {
   useEffect(() => {
@@ -14,21 +14,20 @@ const Add = (props) => {
     }
   });
 
-  const { modal, data, toggleModal }  = props;
+  const { modal, toggleModal, theme }  = props;
+
   const username = DefaultInput({ 
     type: "text", 
     required: true,
-    custom: true,
     name:"username",
     placeholder:"Username", 
     autoComplete:"username", 
-    errorMessage: "Invalid Username", 
+    errorMessage: "Invalid Username"
   });
 
   const email = DefaultInput({ 
     type: "email", 
     required: true,
-    custom: true,
     name:"email",
     placeholder:"Email", 
     autoComplete:"email", 
@@ -38,7 +37,6 @@ const Add = (props) => {
   const password = DefaultInput({ 
     type: "password", 
     required: true,
-    custom: true,
     name:"password",
     placeholder:"Password", 
     autoComplete:"password", 
@@ -52,19 +50,28 @@ const Add = (props) => {
       "email": email.value,
       "password": password.value
     }
-    Promise.resolve( props.save('/user', body) )
-      .then(function (response) {
-        props.getAll('/user')
-        return response;
+    Promise.resolve( props.exist('/user/exist', body) )
+      .then(response => {
+        if(response !== true){
+          props.save('/user', body)
+          props.getAll('/user')
+          return response;  
+        } else {
+
+          return Promise.reject();
+        }
       })
-      .then(function(response){
+      .then(response => {
         toggleModal(false)
+      })
+      .catch(error => {
+        console.log(error)
       })
   }
   
   return (
     <div>
-      <Modal isOpen={modalOpen} toggle={toggleModal} size="md">
+      <Modal isOpen={modalOpen} toggle={toggleModal} size="md" className={"modal-"+theme}>
         <ModalHeader toggle={toggleModal}> Add User </ModalHeader>
         <AvForm id="addUser" method="post" onValidSubmit={handleSubmit}>
           <ModalBody>
@@ -94,8 +101,7 @@ const Add = (props) => {
               </FormGroup>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" type="submit" disabled={data.loading}>Submit</Button>{' '}
-          <Button color="secondary" onClick={toggleModal}>Cancel</Button>
+          <DefaultSubmit submitText="Submit" cancelText="Cancel" />
         </ModalFooter>
          </AvForm>
       </Modal>
@@ -105,15 +111,16 @@ const Add = (props) => {
 
 const mapStateToProps = state => {
   return {
-    data: state.submitForm,
-    modal: state.modal
+    modal: state.modal,
+    theme: state.theme.theme
   }
 }
 
 const mapDispatchToProps = {
   toggleModal: modalActions.toggle,
   getAll: loadTableActions.getAll,
-  save: submitFormActions.save
+  save: submitFormActions.save,
+  exist: submitFormActions.exist
 
 }
 

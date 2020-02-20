@@ -7,13 +7,12 @@ import {
   Row
 } from 'reactstrap'; 
 import { connect } from 'react-redux';
-import { DefaultTable } from 'components';
 import { loadTableActions } from 'stores';
 import Add from './Add';
 import Delete from './Delete';
 import Edit from './Edit';
 import Detail from './Detail';
-import { ControlledAlert } from 'components';
+import { DefaultTable } from 'components';
 import { dateToString } from 'helpers';
 
 const columns = [
@@ -48,20 +47,19 @@ class User extends React.Component {
   }
 
   render(){ 
-    const { data, alert } = this.props;
+    const { data, theme } = this.props;
 
     return (
       <div className="animated fadeIn">
         <Row>
           <Col>
-            <Card>
+            <Card className={ 'card-' + theme }>
               <CardHeader>
                 <h5>
                 <i className="fa fa-user"></i> User
                 </h5>
               </CardHeader>
               <CardBody>
-                <ControlledAlert message={alert.message} color={alert.color} visible={alert.visible} timeout={ 5000 } />
                 <DefaultTable 
                   columns={ columns }
                   actionButton={ true }
@@ -89,7 +87,7 @@ class User extends React.Component {
 const mapStateToProps = state => {
   return {
     data: state.loadTable,
-    alert: state.alert
+    theme: state.theme.theme
   }
 }
 

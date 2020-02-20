@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import DataTable, { createTheme } from 'react-data-table-component';
 import FilterComponent from './FilterComponent';
 import ActionCell from './ActionCell';
+import { connect } from 'react-redux';
 
 const customStyles = {
 	headCells: {
@@ -13,7 +14,34 @@ const customStyles = {
     }
 };
 
-createTheme('solarized', {
+
+createTheme('light', {
+	text: {
+	  primary: '#FFFFFF',
+	  secondary: '#306964',
+	},
+	background: {
+	  default: 'transparent',
+	},
+	context: {
+	  background: '#cb4b16',
+	  text: '#FFFFFF',
+	},
+	divider: {
+	  default: '#80878c',
+	},
+	button: {
+	  default: '#306964',
+	  hover: 'rgba(0,0,0,.08)',
+	  focus: 'rgba(255,255,255,.12)',
+	  disabled: 'rgba(0,0,0,.12)',
+	},
+	sortFocus: {
+	  default: '#306964',
+	},
+});
+
+createTheme('dark', {
 	text: {
 	  primary: '#FFFFFF',
 	  secondary: '#2aa198',
@@ -84,14 +112,22 @@ const DefaultTable = (props) => {
 		  		actionContent={props.actionContent}
 		  	/> 
 		  }
-		  theme="solarized"
+		  theme={ props.theme }
 		  highlightOnHover={true}
 		  noHeader={true}
-		  customStyles={customStyles}
+		  customStyles={ props.theme === 'dark' ? customStyles : {} }
 		  progressPending={loading}
 		/>
     )
 }
 
+const mapStateToProps = state => {
+  return {
+    theme: state.theme.theme
+  }
+}
 
-export default DefaultTable;
+export default connect(
+  mapStateToProps,
+  null
+)(DefaultTable)

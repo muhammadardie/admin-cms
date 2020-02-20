@@ -6,12 +6,12 @@ export const alertActions = {
     clear
 };
 
-function success(message) {
-    return { type: alertConstants.SUCCESS, message };
+function success(message, context) {
+    return { type: alertConstants.SUCCESS, message:message, context: context };
 }
 
-function error(message) {
-    return { type: alertConstants.ERROR, message };
+function error(message, context) {
+    return { type: alertConstants.ERROR, message:message, context: context };
 }
 
 function clear() {

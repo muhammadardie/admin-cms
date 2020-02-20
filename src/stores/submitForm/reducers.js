@@ -52,6 +52,21 @@ export function submitForm (state = initialState, action) {
         loading: false,
         message: action.message
       };
+
+    case submitFormConstants.EXIST_REQUEST:
+      return {
+        loading: true,
+      };
+    case submitFormConstants.EXIST_SUCCESS:
+      return {
+        loading: false,
+        response: action.response
+      };
+    case submitFormConstants.EXIST_FAILURE:
+      return { 
+        loading: false,
+        message: action.message
+      };
     default:
       return state
   }

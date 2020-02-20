@@ -1,5 +1,5 @@
 import { loadTableConstants } from './constants';
-import { alertActions } from 'stores';
+import { toastr } from 'react-redux-toastr';
 import { handleResponse } from 'helpers';
 
 export const loadTableActions = {
@@ -17,7 +17,7 @@ function getAll(url) {
                 })
                 .catch(error => {
                     dispatch({ type: loadTableConstants.GETALL_FAILURE, message: error });
-                    dispatch(alertActions.error(error.toString()));
+                    toastr.error('', error)
                 });
     };
 }

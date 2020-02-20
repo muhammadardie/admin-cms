@@ -2,6 +2,7 @@ import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import * as router from 'react-router-dom';
 import { Container } from 'reactstrap';
+import { connect } from 'react-redux';
 
 import {
   AppFooter,
@@ -32,15 +33,17 @@ class DefaultLayout extends Component {
   }
 
   render() {
+    const theme = this.props.theme;
+
     return (
-      <div className="app">
-        <AppHeader fixed>
+      <div className={'app default-' + theme }>
+        <AppHeader fixed className={'header-' + theme }>
           <Suspense  fallback={this.loading()}>
             <DefaultHeader onLogout={e=>this.signOut(e)}/>
           </Suspense>
         </AppHeader>
         <div className="app-body">
-          <AppSidebar fixed display="lg">
+          <AppSidebar fixed display="lg" className={'sidebar-' + theme}>
             <AppSidebarHeader />
             <AppSidebarForm />
             <Suspense>
@@ -49,8 +52,8 @@ class DefaultLayout extends Component {
             <AppSidebarFooter />
             <AppSidebarMinimizer />
           </AppSidebar>
-          <main className="main">
-            <AppBreadcrumb appRoutes={routes} router={router}/>
+          <main className={'main background-' + theme }>
+            <AppBreadcrumb appRoutes={routes} router={router} className={ 'breadcrumb-' + theme }/>
             <Container fluid>
               <Suspense fallback={this.loading()}>
                 <Switch>
@@ -72,7 +75,7 @@ class DefaultLayout extends Component {
             </Container>
           </main>
         </div>
-        <AppFooter>
+        <AppFooter className={ 'title-' + theme }>
           <Suspense fallback={this.loading()}>
             <DefaultFooter />
           </Suspense>
@@ -82,4 +85,11 @@ class DefaultLayout extends Component {
   }
 }
 
-export default DefaultLayout;
+const mapStateToProps = state => {
+  return {
+    theme: state.theme.theme
+  }
+}
+
+
+export default connect(mapStateToProps, null)(DefaultLayout)

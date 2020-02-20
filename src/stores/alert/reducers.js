@@ -3,7 +3,8 @@ import { alertConstants } from './constants';
 const initialState = {
   color: '',
   message: '',
-  visible: false
+  visible: false,
+  context: ''
 }
 
 export function alert (state = initialState, action) {
@@ -12,17 +13,20 @@ export function alert (state = initialState, action) {
       return {
         color: 'success',
         message: action.message,
+        context: action.context,
         visible: true
       };
     case alertConstants.ERROR:
       return {
         color: 'danger',
         message: action.message,
+        context: action.context,
         visible: true
       };
     case alertConstants.CLEAR:
       return {
-        visible: false
+        visible: false,
+        color: ''
       };
     default:
       return state

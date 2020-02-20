@@ -8,7 +8,8 @@ import {
   Container,
   InputGroupAddon, 
   InputGroupText, 
-  Row
+  Row,
+  Spinner
 } from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 import { Redirect } from "react-router-dom";
@@ -22,6 +23,7 @@ class Login extends Component {
     this.state={
       email: '',
       password: '',
+      authenticated: false,
     }
   }
 
@@ -30,7 +32,7 @@ class Login extends Component {
 
     const { email, password } = this.state;
     if (email && password) {
-        this.props.login(email, password);
+        this.props.login(email, password)
     }
   }
 
@@ -44,10 +46,23 @@ class Login extends Component {
     });
   }
 
+  componentDidMount(){
+    let now     = new Date(),
+      token     = localStorage.getItem("token"),
+      jsonToken = JSON.parse(token);
+      now.setHours(now.getHours())
+
+    if(token && jsonToken['status'] === true && new Date(jsonToken['expire']) > now){
+      this.setState({ authenticated: true });
+    } 
+  }
+
+  
+
   render() {
-    const { alert, auth } = this.props;
+    const { alert, auth, theme } = this.props;
     // prevent access from authenticated user
-    if(localStorage.getItem("token")) {
+    if(this.state.authenticated === true) {
       return <Redirect to={{
           pathname: '/dashboard',
         }} />
@@ -58,13 +73,13 @@ class Login extends Component {
               <Row className="justify-content-center">
                 <Col md="6">
                   <CardGroup>
-                    <Card className="p-4 login-card">
+                    <Card className={'p-4 login-' + theme}>
                       <CardBody style={{ }}>
                         <AvForm id="loginForm" method="post" onValidSubmit={this.handleSubmit}>
                           <h1>Login</h1>
                           <p className="text-muted">Sign In to your account</p>
-                          <ControlledAlert message={alert.message} color={alert.color} visible={alert.visible} />
-                          <AvGroup className="mb-3 input-group">
+                          <ControlledAlert message={alert.message} context="login" color={alert.color} visible={alert.visible} />
+                          <AvGroup className={"mb-3 input-group form-group-"+ theme}>
                             <InputGroupAddon addonType="prepend">
                               <InputGroupText>
                                 <i className="icon-user"></i>
@@ -78,11 +93,12 @@ class Login extends Component {
                               onChange={this.handleInputChange}
                               type="email"
                               placeholder="Email" 
-                              autoComplete="email" 
+                              autoComplete="email"
+                              className={"form-"+ theme} 
                             />
                             <AvFeedback>Invalid email address</AvFeedback>
                           </AvGroup>
-                          <AvGroup className="mb-4 input-group">
+                          <AvGroup className={"mb-4 input-group form-group-"+ theme}>
                             <InputGroupAddon addonType="prepend">
                               <InputGroupText>
                                 <i className="icon-lock"></i>
@@ -98,12 +114,17 @@ class Login extends Component {
                               id="password"
                               placeholder="Password" 
                               autoComplete="current-password" 
+                              className={"form-"+ theme} 
                             />
                             <AvFeedback>Invalid password</AvFeedback>
                           </AvGroup>
                           <Row>
                             <Col xs="6">
-                              <Button color="primary" className="px-4" disabled={auth.loggingIn}>Login</Button>
+                              <Button color="primary" className="px-4" disabled={auth.loggingIn}>
+                              { auth.loggingIn && <Spinner size="sm" color="light" /> }
+                              <span> </span>
+                              Login
+                              </Button>
                             </Col>
                           </Row>
                         </AvForm>
@@ -124,7 +145,8 @@ class Login extends Component {
 const mapStateToProps = state => {
   return {
     auth: state.auth,
-    alert: state.alert
+    alert: state.alert,
+    theme: state.theme.theme
   }
 }
 

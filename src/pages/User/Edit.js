@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Col, FormGroup, Label } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Col, FormGroup, Label } from 'reactstrap';
 import { AvForm } from 'availity-reactstrap-validation';
 import { connect } from 'react-redux';
 import { modalActions, submitFormActions, loadTableActions } from 'stores';
-import { DefaultInput } from 'components';
+import { DefaultInput, DefaultSubmit } from 'components';
 
 const Edit = (props) => {
   useEffect(() => {
@@ -13,7 +13,7 @@ const Edit = (props) => {
       password.setValue("")
     }
   });
-  const { modal, data, toggleModal }  = props;
+  const { modal, toggleModal, theme }  = props;
   const username = DefaultInput({ 
     default: modal.row ? modal.row.username : '',
     type: "text", 
@@ -73,7 +73,7 @@ const Edit = (props) => {
 
   return (
     <div>
-      <Modal isOpen={modalOpen} toggle={toggleModal} size="md">
+      <Modal isOpen={modalOpen} toggle={toggleModal} size="md" className={"modal-"+theme}>
         <ModalHeader toggle={toggleModal}> Edit User </ModalHeader>
         <AvForm id="addUser" method="post" onValidSubmit={handleSubmit}>
           <ModalBody>
@@ -103,8 +103,7 @@ const Edit = (props) => {
               </FormGroup>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" type="submit" disabled={data.loading}>Submit</Button>{' '}
-          <Button color="secondary" onClick={toggleModal}>Cancel</Button>
+          <DefaultSubmit submitText="Submit" cancelText="Cancel" />
         </ModalFooter>
          </AvForm>
       </Modal>
@@ -114,8 +113,8 @@ const Edit = (props) => {
 
 const mapStateToProps = state => {
   return {
-    data: state.submitForm,
-    modal: state.modal
+    modal: state.modal,
+    theme: state.theme.theme
   }
 }
 

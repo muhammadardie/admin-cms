@@ -1,16 +1,17 @@
 import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Col, FormGroup, Label } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Col, FormGroup, Label } from 'reactstrap';
 import { connect } from 'react-redux';
 import { modalActions } from 'stores';
 import { dateToString } from 'helpers';
+import { DefaultSubmit } from 'components';
 
 const Detail = (props) => {
-  const { modal, toggleModal }  = props;
+  const { modal, toggleModal, theme }  = props;
   const modalOpen = (modal.show && modal.context === 'detail') ? true : false;
   let { username, email, createdAt, updatedAt } = modal.row ? modal.row : '';
   return (
     <div>
-      <Modal isOpen={modalOpen} toggle={toggleModal} size="md">
+      <Modal isOpen={modalOpen} toggle={toggleModal} size="md" className={"modal-"+theme}>
         <ModalHeader toggle={toggleModal}> Detail User </ModalHeader>
           <ModalBody>
             <FormGroup row>
@@ -47,7 +48,7 @@ const Detail = (props) => {
             </FormGroup>
           </ModalBody>
         <ModalFooter>
-          <Button color="secondary" onClick={toggleModal}>Close</Button>
+          <DefaultSubmit cancelText="Close" />
         </ModalFooter>
       </Modal>
     </div>
@@ -56,7 +57,8 @@ const Detail = (props) => {
 
 const mapStateToProps = state => {
   return {
-    modal: state.modal
+    modal: state.modal,
+    theme: state.theme.theme
   }
 }
 

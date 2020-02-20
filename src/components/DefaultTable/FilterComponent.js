@@ -7,7 +7,6 @@ import { modalActions } from 'stores';
 const TextField = styled(Input)`
     height: 32px;
     width: 200px;
-    border: 1px solid #e5e5e5;
     padding: 0 32px 0 16px;
     display: inline-block; 
     margin-left: 10px;
@@ -28,7 +27,7 @@ function FilterComponent(props) {
       </Col>
       <Col>
         <Label style={ styles.label }>Search:
-          <TextField id="search" type="text" className="form-control form-control-sm" value={props.filterText} onChange={ e => props.setFilterText(e.target.value) } />
+          <TextField id="search" type="text" className={"form-control form-control-sm form-"+ props.theme} value={props.filterText} onChange={ e => props.setFilterText(e.target.value) } />
         </Label>
       </Col>
     </Col>
@@ -46,8 +45,14 @@ const styles = {
   }
 };
 
+const mapStateToProps = state => {
+  return {
+    theme: state.theme.theme
+  }
+}
+
 const mapDispatchToProps = {
   addModal: modalActions.add
 }
 
-export default connect(null, mapDispatchToProps)(FilterComponent)
+export default connect(mapStateToProps, mapDispatchToProps)(FilterComponent)

@@ -5,3 +5,4 @@ export * from './alert/actions';
 export * from './loadTable/actions';
 export * from './submitForm/actions';
 export * from './modal/actions';
+export * from './theme/actions';

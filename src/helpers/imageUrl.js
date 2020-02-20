@@ -1,4 +1,4 @@
-const imageUrl = {
+export const imageUrl = {
   carousel: process.env.REACT_APP_API_IMAGE_URL + 'carousel/',
   gallery: process.env.REACT_APP_API_IMAGE_URL + 'gallery/',
   testimony: process.env.REACT_APP_API_IMAGE_URL + 'testimony/',
@@ -7,5 +7,3 @@ const imageUrl = {
   team: process.env.REACT_APP_API_IMAGE_URL + 'team/',
   company: process.env.REACT_APP_API_IMAGE_URL + 'company/',
 };
-
-export default imageUrl;

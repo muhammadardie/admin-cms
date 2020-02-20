@@ -4,15 +4,26 @@ import { connect } from 'react-redux';
 import { alertActions } from 'stores';
 
 const ControlledAlert = (props) => {
-	props.timeout && setTimeout( props.clear, props.timeout )
-	
-  	return (
+
+  const visible = (props.visible === true && props.context === props.alert.context);
+  
+  if(visible === true){
+    props.timeout && setTimeout( props.clear, props.timeout )
+  }
+  
+    return (
   		<div>
-  			<Alert color={ props.color } isOpen={props.visible} toggle={props.clear}>
+  			<Alert color={ props.color } isOpen={visible} toggle={props.clear}>
 		      { props.message }
 		    </Alert>
   		</div>
   	)
+}
+
+const mapStateToProps = state => {
+  return {
+    alert: state.alert
+  }
 }
 
 const mapDispatchToProps = {
@@ -20,5 +31,5 @@ const mapDispatchToProps = {
 }
 
 
-export default connect(null, mapDispatchToProps)(ControlledAlert)
+export default connect(mapStateToProps, mapDispatchToProps)(ControlledAlert)
 

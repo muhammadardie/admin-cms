@@ -1,62 +1,78 @@
 @import "global";
 
-body {
-    @extend .dark-default;
+.image-thumbnail {
+    width: 140px;
+    height: 80px; 
+    border: 2px solid white;
+}
 
-    .app-header, .card-header, .card-footer {
-        background-color: $dark-form-header !important;
-        border-color: $dark-default-border !important;
-    }
+.close-toastr{ color: #fff !important; }
+.rrt-middle-container{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-weight: 600 !important;
+    margin-top: 5px !important;
+}
 
-    .app-footer, .card, .breadcrumb {
-        background-color: $dark-default-background !important;
-        border-color: $dark-default-border !important;
-    }
+.in-image {
+    border-radius: 60px;
+    background: white;
+    color: black;
+    box-shadow: 0px 0px 2px #888;
+    position: absolute;
+}
 
-    .main {
-        background-color: black !important;
-    }
+.overlay-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
 
-    .sidebar {
-        @extend .dark-default;   
-    }
+.overlay-image {
+    box-shadow: 0px 0px 2px #888;
+    display: block;
+    width: 100%;
+    height: auto;
+}
 
-    .form-control, .form-control:disabled, .form-control:focus {
-        @extend .dark-default-form;
-    }
+.overlay-icon-container {
+  position: absolute;
+  color:white;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .3s ease;
+  background-color: #102027;
+}
 
-    .form-group {
-        margin-bottom: 0.5rem;
-    }
+.overlay-icon-container:hover {
+    opacity: 0.6;
+}
 
-    .input-group-text {
-        @extend .dark-default-form-group;
-    }
+.overlay-icon {
+  color: white;
+  font-size: 100px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+  text-align: center;
+}
 
-    .dropdown-menu {
-        @extend .dark-default;
+.overlay-icon:hover {
+    color: #5867dd;
+    cursor: pointer;
+}
 
-        .dropdown-header {
-            background-color: $dark-form-header !important;
-        }
+.form-group {
+    margin-bottom: 0.5rem !important;
+}
 
-        .dropdown-item {
-                color: $dark-default-color !important;
-        }
-
-        .dropdown-item:hover {
-            background-color: $primary !important;
-        }
-    
-    }
-    
-    .modal-content {
-        @extend .dark-default; 
-    }
-
-    .login-card {
-        color: #ffffff;
-        border-color: 'transparent';
-        background-color: #23242d !important;
-    }
+label.switch {
+  vertical-align: middle;
 }

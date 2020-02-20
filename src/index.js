@@ -6,11 +6,21 @@ import 'react-app-polyfill/stable';
 import 'helpers/polyfill'
 import App from 'app/App';
 import { store } from 'stores';
-import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
+import { Provider } from 'react-redux';
+import ReduxToastr from 'react-redux-toastr'
 
 const RootComponent = (
   <Provider store={store}>
+  	<ReduxToastr
+      timeOut={4000}
+      newestOnTop={false}
+      preventDuplicates
+      position="top-center"
+      getState={(state) => state.toastr} // This is the default
+      transitionIn="fadeIn"
+      transitionOut="fadeOut"
+      closeOnToastrClick/>
     <App />
   </Provider>
 )
