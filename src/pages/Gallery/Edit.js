@@ -72,22 +72,9 @@ const Edit = (props) => {
     let id = modal.row ? modal.row._id : '';
 
     Promise.resolve( props.update(`/gallery/${id}`, body, true /* third param for status form data */) )
-      .then(response => {
-        if(response !== true){
-          props.getAll('/gallery')
-
-          return response;  
-        } else {
-
-          return Promise.reject();
-        }
-      })
-      .then(response => {
-        toggleModal(false)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+      .then(update => update.status && toggleModal(false))
+      .then(() => props.getAll('/gallery'))
+      .catch(err => console.log(err))
   }
 
   return (

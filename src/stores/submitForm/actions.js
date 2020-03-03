@@ -24,8 +24,10 @@ function exist(url, body) {
                     toastr.error('', response.msg)
                     dispatch( { type: submitFormConstants.EXIST_SUCCESS, response: response.msg } )
                     
-                    return true;  
+                    return {exist: response.exist} 
                   }
+
+                  return {exist: false}
                 })
                 .catch(error => {
                     dispatch({ type: submitFormConstants.EXIST_FAILURE, message: error });
@@ -55,10 +57,14 @@ function save(url, body, formData) {
                 .then(function(response) {
                   toastr.success('', 'Data Saved Successfully')
                   dispatch( { type: submitFormConstants.SAVE_SUCCESS, response: response } )
+
+                  return {status: true}
                 })
                 .catch(error => {
                     dispatch({ type: submitFormConstants.SAVE_FAILURE, message: error });
                     toastr.error('', error.toString())
+                    
+                    return {status: false}
                 });
 
     };
@@ -84,10 +90,14 @@ function update(url, body, formData) {
                 .then(function(response) {
                   toastr.success('', 'Data Updated Successfully')
                   dispatch( { type: submitFormConstants.UPDATE_SUCCESS, response: response } )
+
+                  return {status: true}
                 })
                 .catch(error => {
                     dispatch({ type: submitFormConstants.UPDATE_FAILURE, message: error });
                     toastr.error('', error.toString())
+
+                    return {status: false}
                 });
 
     };
@@ -104,10 +114,14 @@ function destroy(url, id) {
                 .then(function(response) {
                   toastr.success('', 'Data Deleted Successfully')
                   dispatch( { type: submitFormConstants.DESTROY_SUCCESS, response: response } )
+                  
+                  return {status: true}
                 })
                 .catch(error => {
                     dispatch({ type: submitFormConstants.DESTROY_FAILURE, message: error });
                     toastr.error('', error.toString())
+                
+                    return {status: false}
                 });
     };
 }

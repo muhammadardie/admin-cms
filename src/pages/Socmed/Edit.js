@@ -9,21 +9,21 @@ import ReactTooltip from 'react-tooltip';
 const Edit = (props) => {
   useEffect(() => {
     if(props.modal.show === false){
-      title.setValue("")
+      name.setValue("")
       icon.setValue("")
-      desc.setValue("")
+      url.setValue("")
     }
   });
   const { modal, toggleModal, theme }  = props;
 
-  const title = DefaultInput({ 
-    default: modal.row ? modal.row.title : '',
+  const name = DefaultInput({ 
+    default: modal.row ? modal.row.name : '',
     type: "text", 
     required: true,
-    name:"title",
-    placeholder:"Title", 
-    autoComplete:"title", 
-    errorMessage: "Invalid Title"
+    name:"name",
+    placeholder:"Name", 
+    autoComplete:"name", 
+    errorMessage: "Invalid Name"
   });
 
   const icon = DefaultInput({
@@ -35,31 +35,30 @@ const Edit = (props) => {
     errorMessage: "Invalid Icon", 
   });
 
-  const desc = DefaultInput({ 
-    default: modal.row ? modal.row.desc : '',
-    type: "textarea", 
+  const url = DefaultInput({ 
+    default: modal.row ? modal.row.url : '',
+    type: "text", 
     required: true,
-    name:"desc",
-    placeholder:"Description", 
-    autoComplete:"desc", 
-    errorMessage: "Invalid Description", 
+    name:"url",
+    placeholder:"URL", 
+    autoComplete:"url", 
+    errorMessage: "Invalid URL", 
   });
 
   const modalOpen = (modal.show && modal.context === 'edit') ? true : false;
   const handleSubmit = (event) => {
     const body = 
     {
-      "title": title.value,
+      "name": name.value,
       "icon": icon.value,
-      "desc": desc.value
+      "url": url.value
     };
 
     let id = modal.row ? modal.row._id : '';
 
-    Promise.resolve( props.exist(`/service/exist/${id}`, body) )
-      .then(res => res.exist === false ? props.update(`/service/${id}`, body) : Promise.reject())
-      .then(save => save.status && toggleModal(false))
-      .then(() => props.getAll('/service'))
+    Promise.resolve( props.update(`/socmed/${id}`, body) )
+      .then(update => update.status && toggleModal(false))
+      .then(() => props.getAll('/socmed'))
       .catch(err => console.log(err))
   }
 
@@ -71,10 +70,10 @@ const Edit = (props) => {
           <ModalBody>
               <FormGroup row>
                 <Col md="3">
-                  <Label htmlFor="text-input">Title</Label>
+                  <Label htmlFor="text-input">Name</Label>
                 </Col>
                 <Col xs="12" md="9">
-                  { title.input }
+                  { name.input }
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -96,10 +95,10 @@ const Edit = (props) => {
               </FormGroup>
               <FormGroup row>
                 <Col md="3">
-                  <Label htmlFor="text-input">Description</Label>
+                  <Label htmlFor="text-input">URL</Label>
                 </Col>
                 <Col xs="12" md="9">
-                  { desc.input }
+                  { url.input }
                 </Col>
               </FormGroup>
         </ModalBody>
@@ -122,8 +121,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   toggleModal: modalActions.toggle,
   getAll: loadTableActions.getAll,
-  update: submitFormActions.update,
-  exist: submitFormActions.exist
+  update: submitFormActions.update
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Edit)

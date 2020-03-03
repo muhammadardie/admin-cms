@@ -5,48 +5,53 @@ import { connect } from 'react-redux';
 import { modalActions, submitFormActions, loadTableActions } from 'stores';
 import { DefaultInput, DefaultSubmit, FileInput, TextEditor } from 'components';
 import { toastr } from 'react-redux-toastr';
+import { imageUrl } from 'helpers';
 
-const Add = (props) => {
+const Edit = (props) => {
   useEffect(() => {
     if(props.modal.show === false){
       image.setValue("")
-      tagdesc.setValue("")
-      tagline.setValue("")
+      content.setValue("")
+      title.setValue("")
     }
   });
-
   const { modal, toggleModal, theme }  = props;
+  
+  let image = FileInput({ 
+      default: modal.row && imageUrl.blog + modal.row.image,
+      maxSize: "2MB", 
+      accepted: ['image/png', 'image/jpeg', 'image/jpg'],
+      minWidth: "500",
+      maxWidth: "2000",
+      minHeight: "500",
+      maxHeight: "2000",
+    });
 
-  const image = FileInput({ 
-    maxSize: "2MB", 
-    accepted: ['image/png', 'image/jpeg', 'image/jpg'],
-    minWidth: "1920",
-    maxWidth: "1920",
-    minHeight: "871",
-    maxHeight: "871",
+  const content = TextEditor({
+    default: modal.row ? modal.row.content : '',
   });
 
-  const tagdesc = TextEditor();
-
-  const tagline = DefaultInput({ 
+  const title = DefaultInput({ 
+    default: modal.row ? modal.row.title : '',
     type: "text", 
     required: false,
-    placeholder:"Tagline", 
-    name:"tagline",
-    errorMessage: "Invalid Tagline", 
+    custom: true,
+    name:"title",
+    placeholder:"Title", 
+    autoComplete:"title", 
+    errorMessage: "Invalid Title", 
   });
 
-  const modalOpen = (modal.show && modal.context === 'add') ? true : false;
+  const modalOpen = (modal.show && modal.context === 'edit') ? true : false;
   const handleSubmit = (event) => {
     let errContext = '';
-    const pondError = 8;
     
-    if (image.value === "" || (image.pond && image.pond.status === pondError)) {
+    if (image.upload && image.value === undefined) {
       errContext = 'Image'
-    } else if (tagline.value === '') {
-      errContext = 'Tagline'
-    } else if (tagdesc.value === '' || tagdesc.value === '<p><br></p>') {
-      errContext = 'Tag Description'
+    }else if (title.value === '') {
+      errContext = 'Title'
+    } else if (content.value === '' || content.value === '<p><br></p>') {
+      errContext = 'Content'
     }
 
     if (errContext !== '') {
@@ -55,21 +60,23 @@ const Add = (props) => {
     }
 
     const body = new FormData()
-      body.append('image', image.value[0]) // first image only
-      body.append('tagline', tagline.value)
-      body.append('tagdesc', tagdesc.value)
+      image.value !== '' && body.append('image', image.value[0]) // first image only
+      body.append('title', title.value)
+      body.append('content', content.value)
 
-    Promise.resolve( props.save('/carousel', body, true /* third param for status form data */) )
-      .then(save => save.status && toggleModal(false))
-      .then(() => props.getAll('/carousel'))
+    let id = modal.row ? modal.row._id : '';
+
+    Promise.resolve( props.update(`/blog/${id}`, body, true /* third param for status form data */) )
+      .then(update => update.status && toggleModal(false))
+      .then(() => props.getAll('/blog'))
       .catch(err => console.log(err))
   }
 
   return (
     <div>
       <Modal isOpen={modalOpen} toggle={toggleModal} size="lg" className={"modal-"+theme}>
-        <ModalHeader toggle={toggleModal}> Add Carousel </ModalHeader>
-        <AvForm id="addCarousel" method="post" onValidSubmit={handleSubmit}>
+        <ModalHeader toggle={toggleModal}> Edit Blog </ModalHeader>
+        <AvForm id="editCarousel" method="post" onValidSubmit={handleSubmit}>
           <ModalBody>
               <FormGroup row>
                 <Col md="3">
@@ -77,23 +84,22 @@ const Add = (props) => {
                 </Col>
                 <Col xs="12" md="9">
                   { image.input }
-                  <small className="help-block form-text text-muted">allowed type: jpg, jpeg, png; max: 2mb; dimension: 1920x871</small>
                 </Col>
               </FormGroup>
               <FormGroup row>
                 <Col md="3">
-                  <Label htmlFor="text-input">Tagline</Label>
+                  <Label htmlFor="text-input">Title</Label>
                 </Col>
                 <Col xs="12" md="9">
-                  { tagline.input }
+                  { title.input }
                 </Col>
               </FormGroup>
               <FormGroup row>
                 <Col md="3">
-                  <Label htmlFor="text-input">Tag Description</Label>
+                  <Label htmlFor="text-input">Content</Label>
                 </Col>
                 <Col xs="12" md="9">
-                  { tagdesc.input }
+                  { content.input }
                 </Col>
               </FormGroup>
         </ModalBody>
@@ -116,7 +122,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   toggleModal: modalActions.toggle,
   getAll: loadTableActions.getAll,
-  save: submitFormActions.save,
+  update: submitFormActions.update
+
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Add)
+export default connect(mapStateToProps, mapDispatchToProps)(Edit)

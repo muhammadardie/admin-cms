@@ -10,8 +10,7 @@ const Dashboard = React.lazy(() => import('pages/Dashboard/Dashboard')),
       Blog      = React.lazy(() => import('pages/Blog/Blog')),
       Header    = React.lazy(() => import('pages/Header/Header')),
       About     = React.lazy(() => import('pages/About/About')),
-      Contact   = React.lazy(() => import('pages/Contact/Contact')),
-      Message   = React.lazy(() => import('pages/Message/Message'));
+      Contact   = React.lazy(() => import('pages/Contact/Contact'));
     
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -26,8 +25,7 @@ const routes = [
   { path: '/blog', name: 'Blog', component: Blog },
   { path: '/header', name: 'Header', component: Header },
   { path: '/about', name: 'About', component: About },
-  { path: '/contact', name: 'Contact', component: Contact },
-  { path: '/message', name: 'Message', component: Message },
+  { path: '/contact', name: 'Contact', component: Contact }
 ];
 
 export default routes;

@@ -39,6 +39,7 @@
     "react-redux-toastr": "^7.6.4",
     "react-router-config": "^5.0.1",
     "react-router-dom": "^5.0.1",
+    "react-select": "^3.0.8",
     "react-test-renderer": "^16.8.6",
     "react-tooltip": "^3.11.2",
     "reactstrap": "^8.0.0",

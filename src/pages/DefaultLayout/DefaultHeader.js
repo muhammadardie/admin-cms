@@ -3,10 +3,10 @@ import { UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav, 
 import PropTypes from 'prop-types';
 import { Redirect } from "react-router-dom";
 import { AppNavbarBrand, AppSidebarToggler, AppSwitch } from '@coreui/react';
-import logo from '../../assets/img/brand/logo.svg'
 import sygnet from '../../assets/img/brand/sygnet.svg'
 import { connect } from 'react-redux';
 import { themeActions } from 'stores';
+import { images } from 'helpers';
 
 const propTypes = {
   children: PropTypes.node,
@@ -41,7 +41,7 @@ class DefaultHeader extends Component {
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
         <AppNavbarBrand
-          full={{ src: logo, width: 89, height: 25, alt: 'CoreUI Logo' }}
+          full={{ src: images.logo, width: 89, height: 25, alt: 'CoreUI Logo' }}
           minimized={{ src: sygnet, width: 30, height: 30, alt: 'CoreUI Logo' }}
         />
         <AppSidebarToggler className="d-md-down-none" display="lg" />
@@ -53,15 +53,12 @@ class DefaultHeader extends Component {
               <span style={{ color: '#fff' }}>Dark Mode</span>
             </span>
           </NavItem>
-          <NavItem className="d-md-down-none">
-            <h6><span className="badge badge-primary">{ username }</span></h6>
-          </NavItem>
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav>
-              <img src={'../../assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+              <img src={ images.avatar } className="img-avatar" alt="admin@bootstrapmaster.com" />
             </DropdownToggle>
             <DropdownMenu right className={"dropdown-" + theme}>
-              <DropdownItem header tag="div" className="text-center"><strong>Account</strong></DropdownItem>
+              <DropdownItem header tag="div" className="text-center"><strong>{ username }</strong></DropdownItem>
               <DropdownItem onClick={this.handleLogout}><i className="fa fa-sign-out"></i> Logout</DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>

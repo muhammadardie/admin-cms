@@ -9,19 +9,19 @@ const Delete = (props) => {
   const { modal, toggleModal, theme }  = props;
   const modalOpen = (modal.show && modal.context === 'delete') ? true : false;
   const handleSubmit = (event) => {
-    Promise.resolve( props.destroy('/carousel', modal.row._id) )
+    Promise.resolve( props.destroy('/testimony', modal.row._id) )
       .then(destroy => destroy.status && toggleModal(false))
-      .then(() => props.getAll('/carousel'))
+      .then(() => props.getAll('/testimony'))
       .catch(err => console.log(err))
   }
   
   return (
     <div>
       <Modal isOpen={modalOpen} toggle={toggleModal} size="md" className={"modal-"+theme}>
-        <ModalHeader toggle={toggleModal}> Delete Carousel </ModalHeader>
-        <AvForm id="deleteCarousel" method="post" onValidSubmit={handleSubmit}>
+        <ModalHeader toggle={toggleModal}> Delete Testimony </ModalHeader>
+        <AvForm id="deleteTtestimony" method="post" onValidSubmit={handleSubmit}>
           <ModalBody>
-              <h6>Are you sure want to delete this carousel</h6>
+              <h6>Are you sure want to delete this testimony</h6>
           </ModalBody>
         <ModalFooter>
           <DefaultSubmit submitText="Yes" cancelText="No" />

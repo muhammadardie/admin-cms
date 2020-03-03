@@ -10,8 +10,8 @@ const Add = (props) => {
   useEffect(() => {
     if(props.modal.show === false){
       image.setValue("")
-      tagdesc.setValue("")
-      tagline.setValue("")
+      content.setValue("")
+      title.setValue("")
     }
   });
 
@@ -20,33 +20,32 @@ const Add = (props) => {
   const image = FileInput({ 
     maxSize: "2MB", 
     accepted: ['image/png', 'image/jpeg', 'image/jpg'],
-    minWidth: "1920",
-    maxWidth: "1920",
-    minHeight: "871",
-    maxHeight: "871",
+    minWidth: "500",
+    maxWidth: "2000",
+    minHeight: "500",
+    maxHeight: "2000",
   });
 
-  const tagdesc = TextEditor();
+  const content = TextEditor();
 
-  const tagline = DefaultInput({ 
+  const title = DefaultInput({ 
     type: "text", 
     required: false,
-    placeholder:"Tagline", 
-    name:"tagline",
-    errorMessage: "Invalid Tagline", 
+    placeholder:"Title", 
+    name:"title",
+    errorMessage: "Invalid Title", 
   });
 
   const modalOpen = (modal.show && modal.context === 'add') ? true : false;
   const handleSubmit = (event) => {
     let errContext = '';
     const pondError = 8;
-    
     if (image.value === "" || (image.pond && image.pond.status === pondError)) {
       errContext = 'Image'
-    } else if (tagline.value === '') {
-      errContext = 'Tagline'
-    } else if (tagdesc.value === '' || tagdesc.value === '<p><br></p>') {
-      errContext = 'Tag Description'
+    } else if (title.value === '') {
+      errContext = 'Title'
+    } else if (content.value === '' || content.value === '<p><br></p>') {
+      errContext = 'Content'
     }
 
     if (errContext !== '') {
@@ -56,20 +55,20 @@ const Add = (props) => {
 
     const body = new FormData()
       body.append('image', image.value[0]) // first image only
-      body.append('tagline', tagline.value)
-      body.append('tagdesc', tagdesc.value)
+      body.append('title', title.value)
+      body.append('content', content.value)
 
-    Promise.resolve( props.save('/carousel', body, true /* third param for status form data */) )
+    Promise.resolve( props.save('/blog', body, true /* third param for status form data */) )
       .then(save => save.status && toggleModal(false))
-      .then(() => props.getAll('/carousel'))
+      .then(() => props.getAll('/blog'))
       .catch(err => console.log(err))
   }
 
   return (
     <div>
       <Modal isOpen={modalOpen} toggle={toggleModal} size="lg" className={"modal-"+theme}>
-        <ModalHeader toggle={toggleModal}> Add Carousel </ModalHeader>
-        <AvForm id="addCarousel" method="post" onValidSubmit={handleSubmit}>
+        <ModalHeader toggle={toggleModal}> Add Blog </ModalHeader>
+        <AvForm id="addBlog" method="post" onValidSubmit={handleSubmit}>
           <ModalBody>
               <FormGroup row>
                 <Col md="3">
@@ -77,23 +76,23 @@ const Add = (props) => {
                 </Col>
                 <Col xs="12" md="9">
                   { image.input }
-                  <small className="help-block form-text text-muted">allowed type: jpg, jpeg, png; max: 2mb; dimension: 1920x871</small>
+                  <small className="help-block form-text text-muted">allowed type: jpg, jpeg, png; max: 2mb; dimension: width and height minimum 500 maximum 2000</small>
                 </Col>
               </FormGroup>
               <FormGroup row>
                 <Col md="3">
-                  <Label htmlFor="text-input">Tagline</Label>
+                  <Label htmlFor="text-input">Title</Label>
                 </Col>
                 <Col xs="12" md="9">
-                  { tagline.input }
+                  { title.input }
                 </Col>
               </FormGroup>
               <FormGroup row>
                 <Col md="3">
-                  <Label htmlFor="text-input">Tag Description</Label>
+                  <Label htmlFor="text-input">Content</Label>
                 </Col>
                 <Col xs="12" md="9">
-                  { tagdesc.input }
+                  { content.input }
                 </Col>
               </FormGroup>
         </ModalBody>

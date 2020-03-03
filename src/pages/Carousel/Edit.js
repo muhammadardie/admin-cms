@@ -50,7 +50,7 @@ const Edit = (props) => {
       errContext = 'Image'
     }else if (tagline.value === '') {
       errContext = 'Tagline'
-    } else if (tagdesc.text === '') {
+    } else if (tagdesc.value === '' || tagdesc.value === '<p><br></p>') {
       errContext = 'Tag Description'
     }
 
@@ -67,28 +67,15 @@ const Edit = (props) => {
     let id = modal.row ? modal.row._id : '';
 
     Promise.resolve( props.update(`/carousel/${id}`, body, true /* third param for status form data */) )
-      .then(response => {
-        if(response !== true){
-          props.getAll('/carousel')
-
-          return response;  
-        } else {
-
-          return Promise.reject();
-        }
-      })
-      .then(response => {
-        toggleModal(false)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+      .then(update => update.status && toggleModal(false))
+      .then(() => props.getAll('/carousel'))
+      .catch(err => console.log(err))
   }
 
   return (
     <div>
       <Modal isOpen={modalOpen} toggle={toggleModal} size="lg" className={"modal-"+theme}>
-        <ModalHeader toggle={toggleModal}> Edit User </ModalHeader>
+        <ModalHeader toggle={toggleModal}> Edit Carousel </ModalHeader>
         <AvForm id="editCarousel" method="post" onValidSubmit={handleSubmit}>
           <ModalBody>
               <FormGroup row>

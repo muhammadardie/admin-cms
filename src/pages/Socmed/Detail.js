@@ -1,52 +1,49 @@
 import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Col, FormGroup, Label } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Col, FormGroup, Label } from 'reactstrap';
 import { connect } from 'react-redux';
 import { modalActions } from 'stores';
-import { dateToString, imageUrl } from 'helpers';
-import ModalImage from "react-modal-image";
+import { dateToString } from 'helpers';
+import { DefaultSubmit } from 'components';
 
 const Detail = (props) => {
   const { modal, toggleModal, theme }  = props;
   const modalOpen = (modal.show && modal.context === 'detail') ? true : false;
-  let { image, tagline, tagdesc,  createdAt, updatedAt } = modal.row ? modal.row : '';
-
+  let { name, icon, url, createdAt, updatedAt } = modal.row ? modal.row : '';
   return (
     <div>
-      <Modal isOpen={modalOpen} toggle={toggleModal} size="lg" className={"modal-"+theme}>
-        <ModalHeader toggle={toggleModal}> Detail Carousel </ModalHeader>
+      <Modal isOpen={modalOpen} toggle={toggleModal} size="md" className={"modal-"+theme}>
+        <ModalHeader toggle={toggleModal}> Detail Social Media </ModalHeader>
           <ModalBody>
             <FormGroup row>
               <Col md="3">
-                <Label htmlFor="text-input">Image</Label>
+                <Label htmlFor="text-input">Name</Label>
               </Col>
               <Col xs="12" md="9">
-                { image && <ModalImage
-                    small={imageUrl.carousel + image}
-                    large={imageUrl.carousel + image}
-                    className="image-thumbnail"                
-                  />
-                }
+                <code>{ name }</code>
               </Col>
             </FormGroup>
             <FormGroup row>
               <Col md="3">
-                <Label htmlFor="text-input">Tagline</Label>
+                <Label htmlFor="text-input">Icon</Label>
               </Col>
-              <Col xs="12" md="9">
-                <code>{ tagline }</code>
+              <Col xs="12" md="3">
+                <code>{ icon }</code> 
               </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Col md="3">
-                <Label htmlFor="text-input">Tag Description</Label>
-              </Col>
-              <Col xs="12" md="9">
-                <code>{ tagdesc }</code>
+              <Col xs="12" md="6">
+                <i style={{ fontSize: 20 }}className={ icon }></i>
               </Col>
             </FormGroup>
             <FormGroup row>
               <Col md="3">
-                <Label htmlFor="text-input">Created At</Label>
+                <Label htmlFor="text-input">url</Label>
+              </Col>
+              <Col xs="12" md="9">
+                <code>{ url }</code>
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Col md="3">
+                <Label htmlFor="text-input">Created at</Label>
               </Col>
               <Col xs="12" md="9">
                 <code>{ dateToString(createdAt, true) }</code>
@@ -54,7 +51,7 @@ const Detail = (props) => {
             </FormGroup>
             <FormGroup row>
               <Col md="3">
-                <Label htmlFor="text-input">Updated At</Label>
+                <Label htmlFor="text-input">Updated at</Label>
               </Col>
               <Col xs="12" md="9">
                 <code>{ dateToString(updatedAt, true) }</code>
@@ -62,7 +59,7 @@ const Detail = (props) => {
             </FormGroup>
           </ModalBody>
         <ModalFooter>
-          <Button color="secondary" onClick={toggleModal}>Close</Button>
+          <DefaultSubmit cancelText="Close" />
         </ModalFooter>
       </Modal>
     </div>

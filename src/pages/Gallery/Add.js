@@ -68,25 +68,11 @@ const Add = (props) => {
       body.append('url', url.value)
       body.append('image', image.value[0]) // first image only
       body.append('desc', desc.value)
-
-
+      
     Promise.resolve( props.save('/gallery', body, true /* third param for status form data */) )
-      .then(response => {
-        if(response !== true){
-          props.getAll('/gallery')
-
-          return response;  
-        } else {
-
-          return Promise.reject();
-        }
-      })
-      .then(response => {
-        toggleModal(false)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+      .then(save => save.status && toggleModal(false))
+      .then(() => props.getAll('/gallery'))
+      .catch(err => console.log(err))
   }
   return (
     <div>

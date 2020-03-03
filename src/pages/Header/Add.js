@@ -3,13 +3,14 @@ import { Modal, ModalHeader, ModalBody, ModalFooter, Col, FormGroup, Label } fro
 import { AvForm } from 'availity-reactstrap-validation';
 import { connect } from 'react-redux';
 import { modalActions, submitFormActions, loadTableActions } from 'stores';
-import { DefaultInput, DefaultSubmit, FileInput, TextEditor } from 'components';
+import { DefaultInput, DefaultSelect, DefaultSubmit, FileInput, TextEditor } from 'components';
 import { toastr } from 'react-redux-toastr';
 
 const Add = (props) => {
   useEffect(() => {
     if(props.modal.show === false){
       image.setValue("")
+      page.setValue("")
       tagdesc.setValue("")
       tagline.setValue("")
     }
@@ -26,6 +27,17 @@ const Add = (props) => {
     maxHeight: "871",
   });
 
+  const page = DefaultSelect({
+    options: [
+      { value: 'About', label: 'About' },
+      { value: 'Blog', label: 'Blog' },
+      { value: 'Contact', label: 'Contact' },
+      { value: 'Feature', label: 'Feature' },
+      { value: 'Work', label: 'Work' }
+    ],
+    name:"page",
+  });
+
   const tagdesc = TextEditor();
 
   const tagline = DefaultInput({ 
@@ -40,10 +52,9 @@ const Add = (props) => {
   const handleSubmit = (event) => {
     let errContext = '';
     const pondError = 8;
-    
     if (image.value === "" || (image.pond && image.pond.status === pondError)) {
       errContext = 'Image'
-    } else if (tagline.value === '') {
+    }  else if (tagline.value === '') {
       errContext = 'Tagline'
     } else if (tagdesc.value === '' || tagdesc.value === '<p><br></p>') {
       errContext = 'Tag Description'
@@ -56,20 +67,26 @@ const Add = (props) => {
 
     const body = new FormData()
       body.append('image', image.value[0]) // first image only
+      body.append('page', page.value)
       body.append('tagline', tagline.value)
       body.append('tagdesc', tagdesc.value)
 
-    Promise.resolve( props.save('/carousel', body, true /* third param for status form data */) )
+    const checkExist = {
+      "page": page.value
+    }
+
+    Promise.resolve( props.exist('/header/exist', checkExist) )
+      .then(res => res.exist === false ? props.save('/header', body, true) : Promise.reject())
       .then(save => save.status && toggleModal(false))
-      .then(() => props.getAll('/carousel'))
+      .then(() => props.getAll('/header'))
       .catch(err => console.log(err))
   }
 
   return (
     <div>
       <Modal isOpen={modalOpen} toggle={toggleModal} size="lg" className={"modal-"+theme}>
-        <ModalHeader toggle={toggleModal}> Add Carousel </ModalHeader>
-        <AvForm id="addCarousel" method="post" onValidSubmit={handleSubmit}>
+        <ModalHeader toggle={toggleModal}> Add Header </ModalHeader>
+        <AvForm id="addHeader" method="post" onValidSubmit={handleSubmit}>
           <ModalBody>
               <FormGroup row>
                 <Col md="3">
@@ -78,6 +95,14 @@ const Add = (props) => {
                 <Col xs="12" md="9">
                   { image.input }
                   <small className="help-block form-text text-muted">allowed type: jpg, jpeg, png; max: 2mb; dimension: 1920x871</small>
+                </Col>
+              </FormGroup>
+              <FormGroup row>
+                <Col md="3">
+                  <Label htmlFor="text-input">Page</Label>
+                </Col>
+                <Col xs="12" md="9">
+                  { page.input }
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -117,6 +142,7 @@ const mapDispatchToProps = {
   toggleModal: modalActions.toggle,
   getAll: loadTableActions.getAll,
   save: submitFormActions.save,
+  exist: submitFormActions.exist
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Add)

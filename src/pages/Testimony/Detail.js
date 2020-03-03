@@ -8,21 +8,21 @@ import ModalImage from "react-modal-image";
 const Detail = (props) => {
   const { modal, toggleModal, theme }  = props;
   const modalOpen = (modal.show && modal.context === 'detail') ? true : false;
-  let { image, tagline, tagdesc,  createdAt, updatedAt } = modal.row ? modal.row : '';
+  let { avatar, username, comment,  createdAt, updatedAt } = modal.row ? modal.row : '';
 
   return (
     <div>
       <Modal isOpen={modalOpen} toggle={toggleModal} size="lg" className={"modal-"+theme}>
-        <ModalHeader toggle={toggleModal}> Detail Carousel </ModalHeader>
+        <ModalHeader toggle={toggleModal}> Detail Testimony </ModalHeader>
           <ModalBody>
             <FormGroup row>
               <Col md="3">
                 <Label htmlFor="text-input">Image</Label>
               </Col>
               <Col xs="12" md="9">
-                { image && <ModalImage
-                    small={imageUrl.carousel + image}
-                    large={imageUrl.carousel + image}
+                { avatar && <ModalImage
+                    small={imageUrl.carousel + avatar}
+                    large={imageUrl.carousel + avatar}
                     className="image-thumbnail"                
                   />
                 }
@@ -30,18 +30,18 @@ const Detail = (props) => {
             </FormGroup>
             <FormGroup row>
               <Col md="3">
-                <Label htmlFor="text-input">Tagline</Label>
+                <Label htmlFor="text-input">Username</Label>
               </Col>
               <Col xs="12" md="9">
-                <code>{ tagline }</code>
+                <code>{ username }</code>
               </Col>
             </FormGroup>
             <FormGroup row>
               <Col md="3">
-                <Label htmlFor="text-input">Tag Description</Label>
+                <Label htmlFor="text-input">Comment</Label>
               </Col>
               <Col xs="12" md="9">
-                <code>{ tagdesc }</code>
+                <code>{ comment }</code>
               </Col>
             </FormGroup>
             <FormGroup row>

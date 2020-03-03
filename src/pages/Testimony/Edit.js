@@ -3,78 +3,84 @@ import { Modal, ModalHeader, ModalBody, ModalFooter, Col, FormGroup, Label } fro
 import { AvForm } from 'availity-reactstrap-validation';
 import { connect } from 'react-redux';
 import { modalActions, submitFormActions, loadTableActions } from 'stores';
-import { DefaultInput, DefaultSubmit } from 'components';
+import { DefaultInput, DefaultSubmit, FileInput } from 'components';
+import { toastr } from 'react-redux-toastr';
+import { imageUrl } from 'helpers';
 
 const Edit = (props) => {
   useEffect(() => {
     if(props.modal.show === false){
+      avatar.setValue("")
       username.setValue("")
-      email.setValue("")
-      password.setValue("")
+      comment.setValue("")
     }
   });
   const { modal, toggleModal, theme }  = props;
+  
+  const avatar = FileInput({ 
+    default: modal.row && imageUrl.testimony + modal.row.avatar,
+    maxSize: "2MB", 
+    accepted: ['image/png', 'image/jpeg', 'image/jpg'],
+    minWidth: "100",
+    maxWidth: "1000",
+    minHeight: "100",
+    maxHeight: "1000",
+  });
+
   const username = DefaultInput({ 
     default: modal.row ? modal.row.username : '',
     type: "text", 
     required: true,
-    custom: true,
     name:"username",
     placeholder:"Username", 
-    autoComplete:"username", 
     errorMessage: "Invalid Username", 
   });
 
-  const email = DefaultInput({ 
-    default: modal.row ? modal.row.email : '',
-    type: "email", 
+  const comment = DefaultInput({ 
+    default: modal.row ? modal.row.comment : '',
+    type: "textarea", 
     required: true,
-    custom: true,
-    name:"email",
-    placeholder:"Email", 
-    autoComplete:"email", 
-    errorMessage: "Invalid Email", 
-  });
-
-  const password = DefaultInput({ 
-    type: "password", 
-    required: false,
-    custom: true,
-    name:"password",
-    placeholder:"Password", 
-    autoComplete:"password", 
-    errorMessage: "Invalid Password", 
+    name:"comment",
+    placeholder:"Comment", 
+    autoComplete:"desc", 
+    errorMessage: "Invalid Comment", 
   });
 
   const modalOpen = (modal.show && modal.context === 'edit') ? true : false;
   const handleSubmit = (event) => {
-    const body = password.value !== '' ? 
-      {
-        "username": username.value,
-        "email": email.value,
-        "password": password.value
-      } :
-      {
-        "username": username.value,
-        "email": email.value
-      };
+    
+    if (avatar.upload && avatar.value === undefined) {
+      toastr.error('Avatar is required')
+      return;
+    }
+
+    const body = new FormData()
+      avatar.value !== '' && body.append('avatar', avatar.value[0]) // first image only
+      body.append('username', username.value)
+      body.append('comment', comment.value)
 
     let id = modal.row ? modal.row._id : '';
 
-    Promise.resolve( props.exist(`/user/exist/${id}`, body) )
-      .then(res => res.exist === false ? props.update(`/user/${id}`, body) : Promise.reject())
-      .then(save => save.status && toggleModal(false))
-      .then(() => props.getAll('/user'))
+    Promise.resolve( props.update(`/testimony/${id}`, body, true /* third param for status form data */) )
+      .then(update => update.status && toggleModal(false))
+      .then(() => props.getAll('/testimony'))
       .catch(err => console.log(err))
-      
   }
 
   return (
     <div>
-      <Modal isOpen={modalOpen} toggle={toggleModal} size="md" className={"modal-"+theme}>
+      <Modal isOpen={modalOpen} toggle={toggleModal} size="lg" className={"modal-"+theme}>
         <ModalHeader toggle={toggleModal}> Edit User </ModalHeader>
-        <AvForm id="addUser" method="post" onValidSubmit={handleSubmit}>
+        <AvForm id="editTestimony" method="post" onValidSubmit={handleSubmit}>
           <ModalBody>
+              <FormGroup row>
+                <Col md="3">
+                  <Label htmlFor="text-input">Avatar</Label>
+                </Col>
+                <Col xs="12" md="9">
+                  { avatar.input }
+                </Col>
+              </FormGroup>
               <FormGroup row>
                 <Col md="3">
                   <Label htmlFor="text-input">Username</Label>
@@ -85,18 +91,10 @@ const Edit = (props) => {
               </FormGroup>
               <FormGroup row>
                 <Col md="3">
-                  <Label htmlFor="text-input">Email</Label>
+                  <Label htmlFor="text-input">Comment</Label>
                 </Col>
                 <Col xs="12" md="9">
-                  { email.input }
-                </Col>
-              </FormGroup>
-              <FormGroup row>
-                <Col md="3">
-                  <Label htmlFor="text-input">Password</Label>
-                </Col>
-                <Col xs="12" md="9">
-                  { password.input }
+                  { comment.input }
                 </Col>
               </FormGroup>
         </ModalBody>
@@ -119,8 +117,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   toggleModal: modalActions.toggle,
   getAll: loadTableActions.getAll,
-  update: submitFormActions.update,
-  exist: submitFormActions.exist
+  update: submitFormActions.update
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Edit)

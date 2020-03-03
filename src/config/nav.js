@@ -54,11 +54,6 @@ export default {
       name: 'Contact',
       url: '/contact',
       icon: 'fa fa-phone',
-    },
-    {
-      name: 'Message',
-      url: '/message',
-      icon: 'fa fa-envelope',
-    },
+    }
   ],
 };

@@ -3,67 +3,81 @@ import { Modal, ModalHeader, ModalBody, ModalFooter, Col, FormGroup, Label } fro
 import { AvForm } from 'availity-reactstrap-validation';
 import { connect } from 'react-redux';
 import { modalActions, submitFormActions, loadTableActions } from 'stores';
-import { DefaultInput, DefaultSubmit } from 'components';
+import { DefaultInput, DefaultSubmit, FileInput } from 'components';
+import { toastr } from 'react-redux-toastr';
 
 const Add = (props) => {
   useEffect(() => {
     if(props.modal.show === false){
+      avatar.setValue("")
       username.setValue("")
-      email.setValue("")
-      password.setValue("")
+      comment.setValue("")
     }
   });
 
   const { modal, toggleModal, theme }  = props;
+
+  const avatar = FileInput({ 
+    maxSize: "2MB", 
+    accepted: ['image/png', 'image/jpeg', 'image/jpg'],
+    minWidth: "100",
+    maxWidth: "1000",
+    minHeight: "100",
+    maxHeight: "1000",
+  });
 
   const username = DefaultInput({ 
     type: "text", 
     required: true,
     name:"username",
     placeholder:"Username", 
-    autoComplete:"username", 
-    errorMessage: "Invalid Username"
+    errorMessage: "Invalid Username", 
   });
 
-  const email = DefaultInput({ 
-    type: "email", 
+  const comment = DefaultInput({ 
+    type: "textarea", 
     required: true,
-    name:"email",
-    placeholder:"Email", 
-    autoComplete:"email", 
-    errorMessage: "Invalid Email", 
-  });
-
-  const password = DefaultInput({ 
-    type: "password", 
-    required: true,
-    name:"password",
-    placeholder:"Password", 
-    autoComplete:"password", 
-    errorMessage: "Invalid Password", 
+    name:"comment",
+    placeholder:"Comment", 
+    autoComplete:"desc", 
+    errorMessage: "Invalid Comment", 
   });
 
   const modalOpen = (modal.show && modal.context === 'add') ? true : false;
   const handleSubmit = (event) => {
-    const body = {
-      "username": username.value,
-      "email": email.value,
-      "password": password.value
+    const pondError = 8;
+
+    if (avatar.value === "" || (avatar.pond && avatar.pond.status === pondError)) {
+      toastr.error('Avatar is required')
+      return;
     }
 
-    Promise.resolve( props.exist('/user/exist', body) )
-      .then(res => res.exist === false ? props.save('/user', body) : Promise.reject())
+    const body = new FormData()
+      body.append('avatar', avatar.value[0]) // first image only
+      body.append('username', username.value)
+      body.append('comment', comment.value)
+
+
+    Promise.resolve( props.save('/testimony', body, true /* third param for status form data */) )
       .then(save => save.status && toggleModal(false))
-      .then(() => props.getAll('/user'))
+      .then(() => props.getAll('/testimony'))
       .catch(err => console.log(err))
   }
-  
   return (
     <div>
-      <Modal isOpen={modalOpen} toggle={toggleModal} size="md" className={"modal-"+theme}>
-        <ModalHeader toggle={toggleModal}> Add User </ModalHeader>
-        <AvForm id="addUser" method="post" onValidSubmit={handleSubmit}>
+      <Modal isOpen={modalOpen} toggle={toggleModal} size="lg" className={"modal-"+theme}>
+        <ModalHeader toggle={toggleModal}> Add Testimony </ModalHeader>
+        <AvForm id="addTestimony" method="post" onValidSubmit={handleSubmit}>
           <ModalBody>
+              <FormGroup row>
+                <Col md="3">
+                  <Label htmlFor="text-input">Avatar</Label>
+                </Col>
+                <Col xs="12" md="9">
+                  { avatar.input }
+                  <small className="help-block form-text text-muted">allowed type: jpg, jpeg, png; max: 2mb; dimension: width and height min 100 max 1000</small>
+                </Col>
+              </FormGroup>
               <FormGroup row>
                 <Col md="3">
                   <Label htmlFor="text-input">Username</Label>
@@ -74,18 +88,10 @@ const Add = (props) => {
               </FormGroup>
               <FormGroup row>
                 <Col md="3">
-                  <Label htmlFor="text-input">Email</Label>
+                  <Label htmlFor="text-input">Comment</Label>
                 </Col>
                 <Col xs="12" md="9">
-                  { email.input }
-                </Col>
-              </FormGroup>
-              <FormGroup row>
-                <Col md="3">
-                  <Label htmlFor="text-input">Password</Label>
-                </Col>
-                <Col xs="12" md="9">
-                  { password.input }
+                  { comment.input }
                 </Col>
               </FormGroup>
         </ModalBody>
@@ -109,7 +115,6 @@ const mapDispatchToProps = {
   toggleModal: modalActions.toggle,
   getAll: loadTableActions.getAll,
   save: submitFormActions.save,
-  exist: submitFormActions.exist
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Add)

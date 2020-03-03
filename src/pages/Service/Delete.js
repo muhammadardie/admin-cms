@@ -10,13 +10,9 @@ const Delete = (props) => {
   const modalOpen = (modal.show && modal.context === 'delete') ? true : false;
   const handleSubmit = (event) => {
     Promise.resolve( props.destroy('/service', modal.row._id) )
-      .then(function (response) {
-        props.getAll('/service')
-        return response;
-      })
-      .then(function(response){
-        toggleModal(false)
-      })
+      .then(destroy => destroy.status && toggleModal(false))
+      .then(() => props.getAll('/service'))
+      .catch(err => console.log(err))
   }
   
   return (

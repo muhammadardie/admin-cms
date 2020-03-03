@@ -8,12 +8,12 @@ import ModalImage from "react-modal-image";
 const Detail = (props) => {
   const { modal, toggleModal, theme }  = props;
   const modalOpen = (modal.show && modal.context === 'detail') ? true : false;
-  let { image, tagline, tagdesc,  createdAt, updatedAt } = modal.row ? modal.row : '';
+  let { image, page, tagdesc, tagline, createdAt, updatedAt } = modal.row ? modal.row : '';
 
   return (
     <div>
       <Modal isOpen={modalOpen} toggle={toggleModal} size="lg" className={"modal-"+theme}>
-        <ModalHeader toggle={toggleModal}> Detail Carousel </ModalHeader>
+        <ModalHeader toggle={toggleModal}> Detail Header </ModalHeader>
           <ModalBody>
             <FormGroup row>
               <Col md="3">
@@ -21,11 +21,19 @@ const Detail = (props) => {
               </Col>
               <Col xs="12" md="9">
                 { image && <ModalImage
-                    small={imageUrl.carousel + image}
-                    large={imageUrl.carousel + image}
+                    small={imageUrl.header + image}
+                    large={imageUrl.header + image}
                     className="image-thumbnail"                
                   />
                 }
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Col md="3">
+                <Label htmlFor="text-input">Page</Label>
+              </Col>
+              <Col xs="12" md="9">
+                <code>{ page }</code>
               </Col>
             </FormGroup>
             <FormGroup row>

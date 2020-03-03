@@ -70,7 +70,7 @@ class Gallery extends React.Component {
             <Card className={ 'card-' + theme }>
               <CardHeader>
                 <h5>
-                <i className="fa fa-user"></i> Gallery
+                <i className="fa fa-film"></i>Gallery
                 </h5>
               </CardHeader>
               <CardBody>

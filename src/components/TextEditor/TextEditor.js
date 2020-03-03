@@ -4,19 +4,16 @@ import 'react-quill/dist/quill.snow.css';
 
 const TextEditor = (props) => {
   const [value, setValue] = useState('');
-  const [quillRef, setQuillRef] = useState();
 
   let defaultValue = props ? props.default : '';
   useEffect(() => { setValue(defaultValue) }, [defaultValue]);
 
-  const input = <ReactQuill 
-        	ref={(el) => setQuillRef(el) }
-        	value={ value }
-            onChange={ (val) => setValue(val) } 
-        />;
-  const textInputted = quillRef && quillRef.getEditor().getText();
+  const input = <ReactQuill
+                	value={ value }
+                  onChange={ (val) => setValue(val) } 
+                />;
 
-  return { value: value, setValue: setValue, input: input, text: textInputted };
+  return { value: value, setValue: setValue, input: input };
   
 }
 

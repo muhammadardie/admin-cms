@@ -51,22 +51,10 @@ const Add = (props) => {
       "desc": desc.value
     }
     Promise.resolve( props.exist('/service/exist', body) )
-      .then(response => {
-        if(response !== true){
-          props.save('/service', body)
-          props.getAll('/service')
-          return response;  
-        } else {
-
-          return Promise.reject();
-        }
-      })
-      .then(response => {
-        toggleModal(false)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+      .then(res => res.exist === false && props.save('/service', body))
+      .then(save => save.status && toggleModal(false))
+      .then(() => props.getAll('/service'))
+      .catch(err => console.log(err))
   }
   
   return (
