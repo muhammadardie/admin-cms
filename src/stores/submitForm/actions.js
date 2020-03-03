@@ -9,11 +9,13 @@ export const submitFormActions = {
   destroy
 };
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 function exist(url, body) {
     return dispatch => {
         dispatch( { type: submitFormConstants.EXIST_REQUEST } );
 
-        return fetch(url, {
+        return fetch(API_URL + url, {
                  method: 'post',
                  headers: {'Content-Type':'application/json'},
                  body: JSON.stringify(body)
@@ -52,7 +54,7 @@ function save(url, body, formData) {
           headers: {'Content-Type':'application/json'},
           body: JSON.stringify(body)
         };
-        return fetch(url, post)
+        return fetch(API_URL + url, post)
                 .then(handleResponse)
                 .then(function(response) {
                   toastr.success('', 'Data Saved Successfully')
@@ -85,7 +87,7 @@ function update(url, body, formData) {
           headers: {'Content-Type':'application/json'},
           body: JSON.stringify(body)
         };
-        return fetch(url, put)
+        return fetch(API_URL + url, put)
                 .then(handleResponse)
                 .then(function(response) {
                   toastr.success('', 'Data Updated Successfully')
@@ -107,7 +109,7 @@ function destroy(url, id) {
     return dispatch => {
         dispatch( { type: submitFormConstants.DESTROY_REQUEST } );
 
-        return fetch(url +'/'+ id, {
+        return fetch(API_URL + url +'/'+ id, {
                   method: 'DELETE',
                 })
                 .then(handleResponse)

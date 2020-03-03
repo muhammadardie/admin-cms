@@ -7,6 +7,8 @@ export const authActions = {
     logout
 };
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 function login(email, password) {
     return dispatch => {
         dispatch({ type: authConstants.LOGIN_REQUEST, user: email  });   
@@ -17,7 +19,7 @@ function login(email, password) {
             body: JSON.stringify({ email, password })
         };
 
-        return fetch('/login', requestOptions)
+        return fetch(API_URL + 'login', requestOptions)
                 .then(handleResponse)
                 .then(response => {
                     if(response.status === true){
