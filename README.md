@@ -1,8 +1,8 @@
 # admin-cms
 React app for manage data from express-cms in other repository
 
-[![img-capture-1]][url-capture-1]
-[![img-capture-2]][url-capture-2]
+![Imgur Image](https://imgur.com/QQE1ahA.png)
+![Imgur Image](https://imgur.com/Hz08HKL.png)
 
 ## Installation
 
@@ -18,6 +18,3 @@ npm start
 Url: https://react-cms-admin.netlify.com/
 email: admin@localhost.com
 password: 123456
-
-[url-capture-1]: https://imgur.com/QQE1ahA
-[url-capture-2]: https://imgur.com/Hz08HKL
