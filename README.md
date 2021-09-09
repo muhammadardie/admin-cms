@@ -1,5 +1,5 @@
 # admin-cms
-React app for manage data from express-cms in other repository
+Admin page to manage data cms built using react
 
 ![Imgur Image](https://imgur.com/QQE1ahA.png)
 ![Imgur Image](https://imgur.com/Hz08HKL.png)
@@ -7,6 +7,9 @@ React app for manage data from express-cms in other repository
 ## Repositories can be used as a backend service
 - [express-cms](https://github.com/muhammadardie/express-cms) (node js using express framework)
 - [echo-cms](https://github.com/muhammadardie/echo-cms) (golang using echo framework)
+
+## Repository for frontend site
+- [react-cms](https://github.com/muhammadardie/react-cms)
 
 ## Installation
 ```sh
