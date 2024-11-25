@@ -1,4 +1,4 @@
-export default {
+const navigation = {
   items: [
     {
       name: 'Dashboard',
@@ -57,3 +57,5 @@ export default {
     }
   ],
 };
+
+export default navigation;
