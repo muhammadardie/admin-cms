@@ -76,12 +76,11 @@ const Edit = (props) => {
       body.append('tagline', tagline.value)
       body.append('tagdesc', tagdesc.value)
 
-    let id = modal.row ? modal.row._id : '';
+    let id = modal.row ? modal.row.id : '';
 
-    Promise.resolve( props.exist(`/header/exist/${id}`, {page: page.value}) ) // check if page exist
-      .then(res => res.exist === false ? props.update(`/header/${id}`, body, true) : Promise.reject())
+    Promise.resolve( props.update(`/headers/${id}`, body, true))
       .then(save => save.status && toggleModal(false))
-      .then(() => props.getAll('/header'))
+      .then(() => props.getAll('/headers'))
       .catch(err => console.log(err))
   }
 
@@ -143,8 +142,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   toggleModal: modalActions.toggle,
   getAll: loadTableActions.getAll,
-  update: submitFormActions.update,
-  exist: submitFormActions.exist
+  update: submitFormActions.update
 
 }
 

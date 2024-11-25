@@ -16,7 +16,7 @@ import { DefaultInput, DefaultSubmit } from 'components';
 
 const Contact = (props) => {
   const { data, theme, getAll } = props;
-  React.useLayoutEffect(() => { getAll('/contact') }, [getAll]);
+  React.useLayoutEffect(() => { getAll('/contacts') }, [getAll]);
 
   const phone = DefaultInput({ 
     default: data ? data[0].phone : '',
@@ -49,15 +49,15 @@ const Contact = (props) => {
   });
 
   const handleSubmit = (event) => {
-    let id = data ? data[0]._id : '';
+    let id = data ? data[0].id : '';
 
     const body = {
       phone: phone.value,
       mail: mail.value,
       address: address.value
     }
-    Promise.resolve( props.update(`/contact/${id}`, body) )
-      .then(update => update.status && props.getAll('/contact'))
+    Promise.resolve( props.update(`/contacts/${id}`, body) )
+      .then(update => update.status && props.getAll('/contacts'))
       .catch(err => console.log(err))
   }
     return (

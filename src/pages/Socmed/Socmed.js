@@ -49,7 +49,7 @@ const columns = [
 class Socmed extends React.Component {
 
   componentDidMount() {
-    this.props.getAll('/socmed')
+    this.props.getAll('/socmeds')
   }
 
   render(){ 

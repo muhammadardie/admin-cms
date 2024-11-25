@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { HashRouter, Route, Switch , Redirect } from 'react-router-dom';
 import { toastr } from 'react-redux-toastr';
+import { checkTokenValidity } from 'helpers';
 import './App.scss';
 
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
@@ -15,25 +16,21 @@ const Page500  = React.lazy(() => import('pages/Page500'));
 
 const AuthenticatedRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => {
-    let now     = new Date(),
-      token     = localStorage.getItem("token"),
-      jsonToken = JSON.parse(token);
-      now.setHours(now.getHours())
+    const isTokenValid = checkTokenValidity()
 
-      if(token && jsonToken['status'] === true && new Date(jsonToken['expire']) > now){
+      if(isTokenValid){
 
         return (
           <DefaultLayout {...props} />
         )
 
       } else {
-        localStorage.clear('token')
-        toastr.error('', 'Token has expired, please re-login again')
+          localStorage.clear('token')
+          toastr.error('', 'Token has expired, please re-login again')
 
-        return (
-          <Redirect to='/login' />
-        )
-        
+          return (
+            <Redirect to='/login' />
+          )
       }
 
     }

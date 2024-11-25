@@ -69,9 +69,9 @@ const Add = (props) => {
       body.append('image', image.value[0]) // first image only
       body.append('desc', desc.value)
       
-    Promise.resolve( props.save('/gallery', body, true /* third param for status form data */) )
+    Promise.resolve( props.save('/galleries', body, true /* third param for status form data */) )
       .then(save => save.status && toggleModal(false))
-      .then(() => props.getAll('/gallery'))
+      .then(() => props.getAll('/galleries'))
       .catch(err => console.log(err))
   }
   return (

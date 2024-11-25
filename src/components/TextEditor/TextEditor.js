@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import ReactQuill from 'react-quill-new';
+import 'quill/dist/quill.snow.css';
 
 const TextEditor = (props) => {
   const [value, setValue] = useState('');
@@ -9,6 +9,7 @@ const TextEditor = (props) => {
   useEffect(() => { setValue(defaultValue) }, [defaultValue]);
 
   const input = <ReactQuill
+                  theme="snow"
                 	value={ value }
                   onChange={ (val) => setValue(val) } 
                 />;

@@ -1,6 +1,7 @@
 import { authConstants } from './constants';
 import { history, handleResponse } from 'helpers';
 import { toastr } from 'react-redux-toastr';
+import { setToken } from 'helpers';
 
 export const authActions = {
     login,
@@ -19,17 +20,17 @@ function login(email, password) {
             body: JSON.stringify({ email, password })
         };
 
-        return fetch(API_URL + 'login', requestOptions)
+        return fetch(API_URL + '/login', requestOptions)
                 .then(handleResponse)
                 .then(response => {
                     if(response.status === true){
                         dispatch({ type: authConstants.LOGIN_SUCCESS, user: response })
                         toastr.success('', 'You have succesfully logged in')
-                        setTokenLogin(response)
+                        setToken(response)
                         history.push('/');
                     } else {
                         dispatch({ type: authConstants.LOGIN_FAILURE, user: email });
-                        toastr.error('', response.msg)
+                        toastr.error('', response.message)
                     }
                         
                 })
@@ -44,14 +45,4 @@ function logout() {
     localStorage.removeItem('token');
 
     return { type: authConstants.LOGOUT };
-}
-
-function setTokenLogin(token) {
-    let nextHour = new Date();
-    let date     = new Date();
-    nextHour.setHours(date.getHours() + 1); //one hour from now
-    token['expire'] = nextHour;
-    // store user details and time expiration in local storage to keep user logged in between page refreshes
-    localStorage.setItem('token', JSON.stringify(token));
-
 }

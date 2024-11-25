@@ -61,10 +61,9 @@ const Edit = (props) => {
 
     let id = modal.row ? modal.row._id : '';
 
-    Promise.resolve( props.exist(`/user/exist/${id}`, body) )
-      .then(res => res.exist === false ? props.update(`/user/${id}`, body) : Promise.reject())
+    Promise.resolve(props.update(`/users/${id}`, body))
       .then(save => save.status && toggleModal(false))
-      .then(() => props.getAll('/user'))
+      .then(() => props.getAll('/users'))
       .catch(err => console.log(err))
       
   }
@@ -119,8 +118,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   toggleModal: modalActions.toggle,
   getAll: loadTableActions.getAll,
-  update: submitFormActions.update,
-  exist: submitFormActions.exist
+  update: submitFormActions.update
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Edit)

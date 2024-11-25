@@ -64,11 +64,11 @@ const Edit = (props) => {
       body.append('title', title.value)
       body.append('content', content.value)
 
-    let id = modal.row ? modal.row._id : '';
+    let id = modal.row ? modal.row.id : '';
 
-    Promise.resolve( props.update(`/blog/${id}`, body, true /* third param for status form data */) )
+    Promise.resolve( props.update(`/blogs/${id}`, body, true /* third param for status form data */) )
       .then(update => update.status && toggleModal(false))
-      .then(() => props.getAll('/blog'))
+      .then(() => props.getAll('/blogs'))
       .catch(err => console.log(err))
   }
 

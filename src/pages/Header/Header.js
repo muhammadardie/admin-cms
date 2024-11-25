@@ -56,7 +56,7 @@ const columns = [
 class Header extends React.Component {
 
   componentDidMount() {
-    this.props.getAll('/header')
+    this.props.getAll('/headers')
   }
 
   render(){ 

@@ -18,7 +18,7 @@ import { imageUrl } from 'helpers';
 
 const About = (props) => {
   const { data, theme, getAll } = props;
-  React.useLayoutEffect(() => { getAll('/about') }, [getAll]);
+  React.useLayoutEffect(() => { getAll('/abouts') }, [getAll]);
 
   let image = FileInput({ 
     default: data && imageUrl.about + data[0].image,
@@ -61,15 +61,15 @@ const About = (props) => {
       return;
     }
 
-    let id = data ? data[0]._id : '';
+    let id = data ? data[0].id : '';
 
     const body = new FormData()
       image.value !== undefined && body.append('image', image.value[0]) // first image only
       body.append('title', title.value)
       body.append('desc', desc.value)
 
-    Promise.resolve( props.update(`/about/${id}`, body, true /* third param for status form data */) )
-      .then(save => save.status && props.getAll('/about'))
+    Promise.resolve( props.update(`/abouts/${id}`, body, true /* third param for status form data */) )
+      .then(save => save.status && props.getAll('/abouts'))
       .catch(err => console.log(err))
   }
     return (

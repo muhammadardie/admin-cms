@@ -51,9 +51,9 @@ const Add = (props) => {
       "url": url.value
     }
 
-    Promise.resolve( props.save('/socmed', body) )
+    Promise.resolve( props.save('/socmeds', body) )
       .then(save => save.status && toggleModal(false))
-      .then(() => props.getAll('/socmed'))
+      .then(() => props.getAll('/socmeds'))
       .catch(err => console.log(err))
   }
   
@@ -116,8 +116,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   toggleModal: modalActions.toggle,
   getAll: loadTableActions.getAll,
-  save: submitFormActions.save,
-  exist: submitFormActions.exist
+  save: submitFormActions.save
 
 }
 

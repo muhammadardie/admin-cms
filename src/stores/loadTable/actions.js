@@ -7,13 +7,20 @@ export const loadTableActions = {
 };
 
 const API_URL = process.env.REACT_APP_API_URL;
-
 function getAll(url) {
+    let token = JSON.parse(localStorage.getItem('token'));
+
     return dispatch => {
         dispatch( { type: loadTableConstants.GETALL_REQUEST } );
 
-        return fetch(API_URL + url)
-                .then(handleResponse)
+        return fetch(API_URL + url, {
+                    headers: {Authorization: `Bearer ${token.data.access_token}`}
+                })
+                .then(async(res) => {
+                    const result = await handleResponse(res)
+                    
+                    return result.data   
+                })
                 .then(response => {
                     dispatch( { type: loadTableConstants.GETALL_SUCCESS, data: response } );
 

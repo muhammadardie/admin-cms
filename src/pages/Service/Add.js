@@ -50,10 +50,9 @@ const Add = (props) => {
       "icon": icon.value,
       "desc": desc.value
     }
-    Promise.resolve( props.exist('/service/exist', body) )
-      .then(res => res.exist === false && props.save('/service', body))
+    Promise.resolve( props.save('/services', body))
       .then(save => save.status && toggleModal(false))
-      .then(() => props.getAll('/service'))
+      .then(() => props.getAll('/services'))
       .catch(err => console.log(err))
   }
   
@@ -116,8 +115,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   toggleModal: modalActions.toggle,
   getAll: loadTableActions.getAll,
-  save: submitFormActions.save,
-  exist: submitFormActions.exist
+  save: submitFormActions.save
 
 }
 

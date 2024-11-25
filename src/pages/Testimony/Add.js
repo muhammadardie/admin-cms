@@ -58,9 +58,9 @@ const Add = (props) => {
       body.append('comment', comment.value)
 
 
-    Promise.resolve( props.save('/testimony', body, true /* third param for status form data */) )
+    Promise.resolve( props.save('/testimonies', body, true /* third param for status form data */) )
       .then(save => save.status && toggleModal(false))
-      .then(() => props.getAll('/testimony'))
+      .then(() => props.getAll('/testimonies'))
       .catch(err => console.log(err))
   }
   return (

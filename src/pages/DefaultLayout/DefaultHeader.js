@@ -22,7 +22,7 @@ class DefaultHeader extends Component {
 
   componentDidMount() {
     let token = JSON.parse(localStorage.getItem('token'));
-    this.setState({ username: token.user.username }) 
+    this.setState({ username: token.data.username }) 
   }
 
   handleLogout = () => {

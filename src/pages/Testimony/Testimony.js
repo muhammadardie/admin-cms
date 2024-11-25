@@ -52,7 +52,7 @@ const columns = [
 class Testimony extends React.Component {
 
   componentDidMount() {
-    this.props.getAll('/testimony')
+    this.props.getAll('/testimonies')
   }
 
   render(){ 

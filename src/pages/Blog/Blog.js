@@ -51,7 +51,7 @@ const columns = [
 class Blog extends React.Component {
 
   componentDidMount() {
-    this.props.getAll('/blog')
+    this.props.getAll('/blogs')
   }
 
   render(){ 

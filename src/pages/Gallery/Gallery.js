@@ -57,7 +57,7 @@ const columns = [
 class Gallery extends React.Component {
 
   componentDidMount() {
-    this.props.getAll('/gallery')
+    this.props.getAll('/galleries')
   }
 
   render(){ 

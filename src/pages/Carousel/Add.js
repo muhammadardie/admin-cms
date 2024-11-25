@@ -59,9 +59,9 @@ const Add = (props) => {
       body.append('tagline', tagline.value)
       body.append('tagdesc', tagdesc.value)
 
-    Promise.resolve( props.save('/carousel', body, true /* third param for status form data */) )
+    Promise.resolve( props.save('/carousels', body, true /* third param for status form data */) )
       .then(save => save.status && toggleModal(false))
-      .then(() => props.getAll('/carousel'))
+      .then(() => props.getAll('/carousels'))
       .catch(err => console.log(err))
   }
 

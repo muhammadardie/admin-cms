@@ -71,14 +71,9 @@ const Add = (props) => {
       body.append('tagline', tagline.value)
       body.append('tagdesc', tagdesc.value)
 
-    const checkExist = {
-      "page": page.value
-    }
-
-    Promise.resolve( props.exist('/header/exist', checkExist) )
-      .then(res => res.exist === false ? props.save('/header', body, true) : Promise.reject())
+    Promise.resolve( props.save('/headers', body, true))
       .then(save => save.status && toggleModal(false))
-      .then(() => props.getAll('/header'))
+      .then(() => props.getAll('/headers'))
       .catch(err => console.log(err))
   }
 
@@ -141,8 +136,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   toggleModal: modalActions.toggle,
   getAll: loadTableActions.getAll,
-  save: submitFormActions.save,
-  exist: submitFormActions.exist
+  save: submitFormActions.save
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Add)

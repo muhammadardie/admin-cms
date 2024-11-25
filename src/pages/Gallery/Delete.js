@@ -9,9 +9,9 @@ const Delete = (props) => {
   const { modal, toggleModal, theme }  = props;
   const modalOpen = (modal.show && modal.context === 'delete') ? true : false;
   const handleSubmit = (event) => {
-    Promise.resolve( props.destroy('/gallery', modal.row._id) )
+    Promise.resolve( props.destroy('/galleries', modal.row.id) )
       .then(destroy => destroy.status && toggleModal(false))
-      .then(() => props.getAll('/gallery'))
+      .then(() => props.getAll('/galleries'))
       .catch(err => console.log(err))
   }
   

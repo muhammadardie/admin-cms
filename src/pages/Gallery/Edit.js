@@ -69,11 +69,11 @@ const Edit = (props) => {
       body.append('url', url.value)
       body.append('desc', desc.value)
 
-    let id = modal.row ? modal.row._id : '';
+    let id = modal.row ? modal.row.id : '';
 
-    Promise.resolve( props.update(`/gallery/${id}`, body, true /* third param for status form data */) )
+    Promise.resolve( props.update(`/galleries/${id}`, body, true /* third param for status form data */) )
       .then(update => update.status && toggleModal(false))
-      .then(() => props.getAll('/gallery'))
+      .then(() => props.getAll('/galleries'))
       .catch(err => console.log(err))
   }
 

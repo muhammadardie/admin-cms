@@ -64,11 +64,11 @@ const Edit = (props) => {
       body.append('tagline', tagline.value)
       body.append('tagdesc', tagdesc.value)
 
-    let id = modal.row ? modal.row._id : '';
+    let id = modal.row ? modal.row.id : '';
 
-    Promise.resolve( props.update(`/carousel/${id}`, body, true /* third param for status form data */) )
+    Promise.resolve( props.update(`/carousels/${id}`, body, true /* third param for status form data */) )
       .then(update => update.status && toggleModal(false))
-      .then(() => props.getAll('/carousel'))
+      .then(() => props.getAll('/carousels'))
       .catch(err => console.log(err))
   }
 

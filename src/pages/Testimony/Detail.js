@@ -21,8 +21,8 @@ const Detail = (props) => {
               </Col>
               <Col xs="12" md="9">
                 { avatar && <ModalImage
-                    small={imageUrl.carousel + avatar}
-                    large={imageUrl.carousel + avatar}
+                    small={imageUrl.testimony + avatar}
+                    large={imageUrl.testimony + avatar}
                     className="image-thumbnail"                
                   />
                 }

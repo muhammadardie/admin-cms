@@ -51,10 +51,9 @@ const Add = (props) => {
       "password": password.value
     }
 
-    Promise.resolve( props.exist('/user/exist', body) )
-      .then(res => res.exist === false ? props.save('/user', body) : Promise.reject())
+    Promise.resolve(props.save('/users', body))
       .then(save => save.status && toggleModal(false))
-      .then(() => props.getAll('/user'))
+      .then(() => props.getAll('/users'))
       .catch(err => console.log(err))
   }
   
@@ -108,8 +107,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   toggleModal: modalActions.toggle,
   getAll: loadTableActions.getAll,
-  save: submitFormActions.save,
-  exist: submitFormActions.exist
+  save: submitFormActions.save
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Add)

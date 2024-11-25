@@ -43,12 +43,11 @@ const columns = [
 class User extends React.Component {
 
   componentDidMount() {
-    this.props.getAll('/user')
+    this.props.getAll('/users')
   }
 
   render(){ 
     const { data, theme } = this.props;
-
     return (
       <div className="animated fadeIn">
         <Row>

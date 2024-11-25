@@ -49,7 +49,7 @@ const columns = [
 class Service extends React.Component {
 
   componentDidMount() {
-    this.props.getAll('/service')
+    this.props.getAll('/services')
   }
 
   render(){ 

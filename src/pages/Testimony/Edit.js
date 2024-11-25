@@ -59,11 +59,11 @@ const Edit = (props) => {
       body.append('username', username.value)
       body.append('comment', comment.value)
 
-    let id = modal.row ? modal.row._id : '';
+    let id = modal.row ? modal.row.id : '';
 
-    Promise.resolve( props.update(`/testimony/${id}`, body, true /* third param for status form data */) )
+    Promise.resolve( props.update(`/testimonies/${id}`, body, true /* third param for status form data */) )
       .then(update => update.status && toggleModal(false))
-      .then(() => props.getAll('/testimony'))
+      .then(() => props.getAll('/testimonies'))
       .catch(err => console.log(err))
   }
 

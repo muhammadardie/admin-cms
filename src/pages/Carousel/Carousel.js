@@ -51,7 +51,7 @@ const columns = [
 class Carousel extends React.Component {
 
   componentDidMount() {
-    this.props.getAll('/carousel')
+    this.props.getAll('/carousels')
   }
 
   render(){ 

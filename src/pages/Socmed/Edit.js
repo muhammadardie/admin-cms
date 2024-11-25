@@ -54,11 +54,11 @@ const Edit = (props) => {
       "url": url.value
     };
 
-    let id = modal.row ? modal.row._id : '';
+    let id = modal.row ? modal.row.id : '';
 
-    Promise.resolve( props.update(`/socmed/${id}`, body) )
+    Promise.resolve( props.update(`/socmeds/${id}`, body) )
       .then(update => update.status && toggleModal(false))
-      .then(() => props.getAll('/socmed'))
+      .then(() => props.getAll('/socmeds'))
       .catch(err => console.log(err))
   }
 

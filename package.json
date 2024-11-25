@@ -1,14 +1,11 @@
 {
   "name": "cms-admin",
-  "description": "CMS Admin",
-  "license": "MIT",
-  "private": true,
   "dependencies": {
     "@coreui/coreui": "^2.1.12",
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.3.1",
     "@coreui/icons": "0.3.0",
     "@coreui/react": "^2.5.1",
-    "availity-reactstrap-validation": "^2.6.1",
+    "availity-reactstrap-validation": "^2.7.1",
     "axios": "^0.19.2",
     "bootstrap": "^4.3.1",
     "chart.js": "^2.8.0",
@@ -23,18 +20,19 @@
     "filepond-plugin-image-validate-size": "^1.2.3",
     "flag-icon-css": "^3.3.0",
     "font-awesome": "^4.7.0",
+    "jwt-decode": "^4.0.0",
     "memoize-one": "^5.1.1",
-    "node-sass": "^4.12.0",
+    "node-sass": "^9.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-app-polyfill": "^1.0.1",
-    "react-block-ui": "^1.3.2",
+    "react-block-ui": "^1.3.6",
     "react-chartjs-2": "^2.7.6",
     "react-data-table-component": "^6.2.1",
     "react-dom": "^16.8.6",
     "react-filepond": "^7.0.1",
     "react-modal-image": "^2.5.0",
-    "react-quill": "^1.3.3",
+    "react-quill-new": "^3.3.3",
     "react-redux": "^7.1.3",
     "react-redux-toastr": "^7.6.4",
     "react-router-config": "^5.0.1",
@@ -49,26 +47,20 @@
     "simple-line-icons": "^2.4.1",
     "styled-components": "^5.0.0"
   },
-  "devDependencies": {
-    "react-scripts": "^3.0.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "test:cov": "npm test -- --coverage --watchAll=false",
-    "test:debug": "react-scripts --inspect-brk test --runInBand",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not ie <= 9",
     "not op_mini all"
   ],
+  "description": "CMS Admin",
+  "engines": {
+    "node": ">=16.19",
+    "npm": ">=8"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
@@ -77,8 +69,17 @@
       "!src/polyfill.js"
     ]
   },
-  "engines": {
-    "node": ">=8.10",
-    "npm": ">=6"
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "test:cov": "npm test -- --coverage --watchAll=false",
+    "test:debug": "react-scripts --inspect-brk test --runInBand",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "react-scripts": "^5.0.1"
   }
 }
