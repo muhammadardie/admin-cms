@@ -15,12 +15,12 @@ Admin page to manage data cms built using react
 ```sh
 git clone https://github.com/muhammadardie/admin-cms.git
 cd admin-cms
-npm install
+bun install
 cp .env.example .env
-npm start
+bun run start
 ```
 ## Demo
 
-Url: https://react-cms-admin.netlify.com/
-email: admin@localhost.com
-password: 123456
+- URL: [https://admin-cms.muhammadardie.tech](https://admin-cms.muhammadardie.tech)
+- email: admin@localhost.com
+- password: 123456
