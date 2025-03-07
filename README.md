@@ -21,6 +21,6 @@ bun run start
 ```
 ## Demo
 
-- URL: [https://admin-cms.muhammadardie.tech](https://admin-cms.muhammadardie.tech)
+- URL: [https://admin-cms.ardie.web.id](https://admin-cms.ardie.web.id)
 - email: admin@localhost.com
 - password: 123456
